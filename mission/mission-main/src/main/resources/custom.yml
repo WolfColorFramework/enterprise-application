@@ -1,0 +1,21 @@
+common-aes:
+  initVector: 0000000000000000
+  key: mission!saltkey*
+
+security-starting:
+  default-pwd: 123
+  admin-open: true # 是否显示admin用户 (true/false)
+  password-day: 30 # 密码有效期30天
+  login-url: /login
+  logout-url: /logout
+  free-urls:
+    - /login
+    - /login.htm
+  static-urls:
+    - /static/**
+
+security-token:
+  expiration: 3600000 # 过期毫秒（1小时）
+  secret: 12345 # token盐值
+  header: token
+

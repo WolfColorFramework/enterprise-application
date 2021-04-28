@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.mit</groupId>
+        <artifactId>mission</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>com.mit.mission</groupId>
+    <artifactId>mission-main</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>mission-main</name>
+    <description>启动项目</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+
+        <!--业务-->
+        <dependency>
+            <groupId>com.mit.pis</groupId>
+            <artifactId>pis-web</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!--日志模块，必须引入，否则无法扫描包-->
+        <dependency>
+            <groupId>com.mit.mission</groupId>
+            <artifactId>mission-log</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mit.mission</groupId>
+                    <artifactId>mission-common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--流程模块-->
+        <dependency>
+            <groupId>com.mit.mission</groupId>
+            <artifactId>mission-flowable</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mit.mission</groupId>
+                    <artifactId>mission-common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>PIS-5.0</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
