@@ -19,4 +19,5 @@ public class TokenController {
     public ResponseMessage refresh(@RequestHeader("token") String token) {
         return ResponseMessage.OK(tokenManager.refreshToken(token));
     }
+
 }
