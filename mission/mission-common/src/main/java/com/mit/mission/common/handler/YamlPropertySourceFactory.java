@@ -9,6 +9,11 @@ import org.springframework.core.io.support.EncodedResource;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ *  @autor: gaoy
+ *  @date: 2021/4/29 14:48
+ *  @description: yml映射为实体类
+ */
 public class YamlPropertySourceFactory extends DefaultPropertySourceFactory {
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {
