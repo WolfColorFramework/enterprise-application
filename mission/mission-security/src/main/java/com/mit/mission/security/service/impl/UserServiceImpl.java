@@ -11,7 +11,8 @@ import com.mit.mission.common.exception.CustomException;
 import com.mit.mission.common.exception.CustomExceptionType;
 import com.mit.mission.common.util.AES;
 import com.mit.mission.common.util.DateUtil;
-import com.mit.mission.core.base.Const;
+import com.mit.mission.common.properties.ConstProperties;
+
 import com.mit.mission.security.domain.Role;
 import com.mit.mission.security.properties.SecurityProperties;
 import com.mit.mission.security.domain.User;
@@ -19,8 +20,8 @@ import com.mit.mission.security.enums.AccountStatus;
 import com.mit.mission.security.repository.UserRepository;
 import com.mit.mission.security.service.RoleService;
 import com.mit.mission.security.service.UserService;
-
 import com.mit.mission.security.util.SecurityKit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
     @Autowired
     private SecurityProperties securityProperties;
+    @Autowired
+    private ConstProperties constProperties;
 
     @Override
     public <S extends User> S save(S entity) {
@@ -107,7 +110,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
             if (!securityProperties.getAdminOpen()) {
-                list.add(cb.notEqual(root.get("uuid").as(String.class), Const.ADMIN_ID));
+                list.add(cb.notEqual(root.get("uuid").as(String.class), constProperties.getAdminId()));
             }
             if (null != condition) {
                 if (!StringUtils.isEmpty(condition.get("account"))) {
@@ -149,7 +152,7 @@ public class UserServiceImpl implements UserService {
         // 不能删除超级管理员
         String[] ids = uuids.split(",");
         for (String id : ids) {
-            if (id.equals(Const.ADMIN_ID)) {
+            if (id.equals(constProperties.getAdminId())) {
                 throw new CustomException(CustomExceptionType.USER_INPUT_ERROR, "请求参数错误");
             }
         }
@@ -179,7 +182,7 @@ public class UserServiceImpl implements UserService {
         // 不能冻结超级管理员
         String[] ids = uuids.split(",");
         for (String id : ids) {
-            if (id.equals(Const.ADMIN_ID)) {
+            if (id.equals(constProperties.getAdminId())) {
                 throw new CustomException(CustomExceptionType.SYSTEM_ERROR, "不能冻结超级管理员");
             }
         }
@@ -208,7 +211,7 @@ public class UserServiceImpl implements UserService {
         // 不能修改超级管理员
         String[] ids = uuids.split(",");
         for (String id : ids) {
-            if (id.equals(Const.ADMIN_ID)) {
+            if (id.equals(constProperties.getAdminId())) {
                 throw new CustomException(CustomExceptionType.SYSTEM_ERROR, "不能修改超级管理员权限");
             }
         }
@@ -284,7 +287,7 @@ public class UserServiceImpl implements UserService {
         // 不能锁定超级管理员
         String[] ids = userIds.split(",");
         for (String id : ids) {
-            if (id.equals(String.valueOf(Const.ADMIN_ID))) {
+            if (id.equals(String.valueOf(constProperties.getAdminId()))) {
                 throw new CustomException(CustomExceptionType.SYSTEM_ERROR, "不能锁住超级管理员");
             }
         }

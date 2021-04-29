@@ -9,9 +9,9 @@ import javax.persistence.criteria.Predicate;
 
 import com.mit.mission.common.exception.CustomException;
 import com.mit.mission.common.exception.CustomExceptionType;
+import com.mit.mission.common.properties.ConstProperties;
 import com.mit.mission.common.util.BeanKit;
 import com.mit.mission.common.util.StrKit;
-import com.mit.mission.core.base.Const;
 import com.mit.mission.core.base.domain.Argument;
 import com.mit.mission.core.base.repository.ArgumentRepository;
 import com.mit.mission.core.traffic.domain.Configuration;
@@ -57,6 +57,8 @@ public class RoleServiceImpl implements RoleService {
     private ConfigurationRepository configurationRepository;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private ConstProperties constProperties;
 
     @Override
     public <S extends Role> S save(S entity) {
@@ -128,7 +130,7 @@ public class RoleServiceImpl implements RoleService {
         // 不能删除超级管理员角色
         String[] ids = uuids.split(",");
         for (String id : ids) {
-            if (id.equals(Const.ADMIN_ROLE_ID)) {
+            if (id.equals(constProperties.getAdminRoleId())) {
                 throw new CustomException(CustomExceptionType.SYSTEM_ERROR, "不能删除超级管理员");
             }
         }
@@ -216,7 +218,7 @@ public class RoleServiceImpl implements RoleService {
                     lineIds.add(roleStation.getLineId());
                 }
             }
-            Argument cityConfig = argumentRepository.findOneByName(Const.PCC_CITY);
+            Argument cityConfig = argumentRepository.findOneByName(constProperties.getPccCity());
             if (cityConfig != null) {
                 keys.add(cityConfig.getValue() + "_" + cityConfig.getUuid());
                 for (String lineId : lineIds) {
@@ -233,10 +235,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public TrafficTree findAllStationTree() {
-
-
         // 获取城市
-        Argument cityConfig = argumentRepository.findOneByName(Const.PCC_CITY);
+        Argument cityConfig = argumentRepository.findOneByName(constProperties.getPccCity());
         if (cityConfig == null) {
             throw new CustomException(CustomExceptionType.SYSTEM_ERROR);
         }
@@ -266,7 +266,7 @@ public class RoleServiceImpl implements RoleService {
         // 获取车站
         for (TrafficTree metroTreeL : lineTreeList) {
             List<TrafficTree> stationTreeList = new ArrayList<TrafficTree>();
-            List<Configuration> stationList = configurationRepository.findByLineIdAndDirection(metroTreeL.getId(), Const.DIRECTION_UP);
+            List<Configuration> stationList = configurationRepository.findByLineIdAndDirection(metroTreeL.getId(), constProperties.getDirectionUp());
             if (null != stationList && stationList.size() > 0) {
                 for (Configuration item : stationList) {
                     Station station = stationRepository.getOne(item.getStationId());

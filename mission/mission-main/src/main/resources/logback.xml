@@ -11,16 +11,27 @@
     <logger name="org.apache.catalina.core" level="OFF"/>
 
     <!--日志路径-->
-    <property name="file_path" value="./logs" />
+    <property name="file_path" value="./logs"/>
+
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
     <!-- 控制台输出 -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印Info日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 打印Info级别以上日志 -->
             <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
 
@@ -91,18 +102,11 @@
         </encoder>
     </appender>
 
-    <!-- show parameters for hibernate sql 专为 Hibernate 定制 -->
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder"  level="TRACE" />
-    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor"  level="DEBUG" />
-    <logger name="org.hibernate.SQL" level="DEBUG" />
-    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" />
-    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" />
-
     <root level="debug">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="ERRORFILE" />
-        <appender-ref ref="INFOFILE" />
-        <!--        <appender-ref ref="DEBUGFILE" />-->
-        <!--        <appender-ref ref="ACCESSFILE" />-->
+        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="ERRORFILE"/>-->
+<!--        <appender-ref ref="INFOFILE"/>-->
+<!--        <appender-ref ref="DEBUGFILE"/>-->
+<!--        <appender-ref ref="ACCESSFILE"/>-->
     </root>
 </configuration>

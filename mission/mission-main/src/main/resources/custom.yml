@@ -1,6 +1,12 @@
 common-aes:
-  initVector: 0000000000000000
+  init-vector: 0000000000000000
   key: mission!saltkey*
+
+common-const:
+  pcc-city: pcc_city
+  admin-id: 00000000000000000000000000000001
+  admin-role-id: 00000000000000000000000000000001
+  direction-up: 1
 
 security-starting:
   default-pwd: 123
