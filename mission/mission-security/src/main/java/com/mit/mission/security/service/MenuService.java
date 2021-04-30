@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.mit.mission.security.domain.Menu;
 import com.mit.mission.security.dto.MenuDto;
+import com.mit.mission.security.vo.MenuVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,7 +30,7 @@ public interface MenuService {
 
 	void updateStatus(String menuIds, Integer status);
 
-	List<Menu> getMenusByRoleIds(List<String> roleIds);
+	List<MenuVo> getMenusByRoleIds(List<String> roleIds);
 
 	List<String> getBtnsByRoleIds(List<String> roleList);
 

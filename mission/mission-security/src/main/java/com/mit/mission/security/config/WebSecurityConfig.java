@@ -48,6 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        // 允许iframe嵌套，解决：frame because it set 'X-Frame-Options' to 'deny 问题
+        http.headers().frameOptions().disable();
+
         http.csrf().disable()   // 关闭跨站攻击保护，否则无法跨域访问
                 .exceptionHandling()
                 .authenticationEntryPoint(new UnAuthEntryPoint())   // 认证失败处理器

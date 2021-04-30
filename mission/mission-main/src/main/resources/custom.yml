@@ -1,5 +1,5 @@
 common-aes:
-  init-vector: 0000000000000000
+  init-vector: "0000000000000000"
   key: mission!saltkey*
 
 common-const:

@@ -59,7 +59,7 @@ public class Menu implements Serializable {
     /**
      * 多语言菜单名称
      */
-    @Column(columnDefinition = "longtext COMMENT '多语言菜单名称'")
+    @Column(columnDefinition = "varchar(255) COMMENT '多语言菜单名称'")
     private String languageName;
 
     /**

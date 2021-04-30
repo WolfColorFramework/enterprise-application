@@ -23,6 +23,7 @@ import com.mit.mission.security.service.MenuService;
 
 import com.mit.mission.security.util.SecurityKit;
 import com.mit.mission.security.util.ToolUtils;
+import com.mit.mission.security.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -208,38 +209,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getMenusByRoleIds(List<String> roleIds) {
+    public List<MenuVo> getMenusByRoleIds(List<String> roleIds) {
         if (roleIds.size() < 1) {
             return null;
         }
-        List<Object[]> result = menuRepository.getMenusByRoleIds(roleIds);
-        List<Menu> dtoList = new ArrayList<>();
-        for (Object[] item : result) {
-            Menu dto = new Menu();
-            dto.setUuid((String) item[0]);
-            dto.setIcon((String) item[1]);
-            dto.setParentId((String) item[2]);
-            dto.setCode((String) item[3]);
-            String name = (String) item[4];
-            String languageName = (String) item[5];
-            if (!StringUtils.isEmpty(languageName)) {
-                //String language = ShiroKit.getLanguage();
-                String language = "";
-                JSONObject obj = (JSONObject) JSONObject.parse(languageName);
-                if (!StringUtils.isEmpty(obj.getString(language))) {
-                    name = obj.getString(language);
-                }
-            }
-            dto.setName(name);
-            dto.setLanguageName(languageName);
-            dto.setUrl((String) item[6]);
-            dto.setLevel((Integer) item[7]);
-            dto.setType((Integer) item[8]);
-            dto.setNum((Integer) item[9]);
-            dto.setType(null != item[10] ? (Integer) item[10] : 0);
-            dtoList.add(dto);
-        }
-        return dtoList;
+        return menuRepository.getMenusByRoleIds(roleIds);
     }
 
     @Override

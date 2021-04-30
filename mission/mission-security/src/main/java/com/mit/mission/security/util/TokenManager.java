@@ -54,7 +54,6 @@ public class TokenManager {
         return Jwts.builder().setClaims(claims)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
-                .compressWith(CompressionCodecs.GZIP)
                 .compact();
     }
 
