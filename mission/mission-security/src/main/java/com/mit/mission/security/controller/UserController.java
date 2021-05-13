@@ -25,7 +25,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public Object getUserById(@PathVariable("userId") String userId) {
+    public ResponseMessage getUserById(@PathVariable("userId") String userId) {
         User user = userService.findOneByUuid(userId);
         return ResponseMessage.OK("查询成功", user);
     }

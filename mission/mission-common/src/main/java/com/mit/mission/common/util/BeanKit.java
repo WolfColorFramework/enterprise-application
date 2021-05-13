@@ -1,12 +1,9 @@
 package com.mit.mission.common.util;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.mit.mission.common.exception.CustomException;
 import com.mit.mission.common.exception.CustomExceptionType;
 import org.springframework.beans.BeanUtils;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.HashMap;

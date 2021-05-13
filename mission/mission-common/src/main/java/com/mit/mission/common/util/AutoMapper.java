@@ -64,26 +64,26 @@ public class AutoMapper {
      * 转换List VO 同一属性修改
      *
      * @param source
-     * @param targetVOClass
+     * @param targetClass
      * @param <T>
      * @param <V>
      * @return
      */
-    public static <T, V> List<V> mapperList(List<T> source, Class<V> targetVOClass) {
-        return mapperList(source, targetVOClass, null);
+    public static <T, V> List<V> mapperList(List<T> source, Class<V> targetClass) {
+        return mapperList(source, targetClass, null);
     }
 
     /**
      * 转换List VO 不同属性修改
      *
      * @param source
-     * @param targetVOClass
+     * @param targetClass
      * @param <T>
      * @param <V>
      * @return
      */
-    public static <T, V> List<V> mapperList(List<T> source, Class<V> targetVOClass, BiConsumer<T, V> handler) {
+    public static <T, V> List<V> mapperList(List<T> source, Class<V> targetClass, BiConsumer<T, V> handler) {
 
-        return source.stream().map(item -> mapper(item, targetVOClass, handler)).collect(Collectors.toList());
+        return source.stream().map(item -> mapper(item, targetClass, handler)).collect(Collectors.toList());
     }
 }

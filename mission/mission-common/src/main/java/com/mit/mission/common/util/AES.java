@@ -47,8 +47,6 @@ public class AES {
             n += str.indexOf(hexs[2 * i + 1]);
             bytes[i] = (byte) (n & 0xff);
         }
-        //System.out.println("out len :" + bytes.length);
-        //System.out.println("ddd" + Arrays.toString(bytes));
         return bytes;
     }
 
@@ -65,7 +63,6 @@ public class AES {
             else
                 hs = hs + stmp;
         }
-//		System.out.println(hs.toUpperCase());
         return hs.toUpperCase();
     }
 
@@ -78,7 +75,6 @@ public class AES {
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
 
             byte[] encrypted = cipher.doFinal(value.getBytes("UTF-8"));
-//			System.out.println(Arrays.toString(encrypted));
 
             return byte2HexStr(encrypted);
         } catch (Exception ex) {
@@ -97,7 +93,6 @@ public class AES {
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
 
             byte[] encrypted = cipher.doFinal(value.getBytes("UTF-8"));
-//			System.out.println(Arrays.toString(encrypted));
 
             return byte2HexStr(encrypted);
         } catch (Exception ex) {

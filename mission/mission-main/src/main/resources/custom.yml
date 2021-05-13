@@ -17,6 +17,7 @@ security-starting:
   free-urls:
     - /login
     - /login.htm
+    - /token/refresh-token
   static-urls:
     - /static/**
 

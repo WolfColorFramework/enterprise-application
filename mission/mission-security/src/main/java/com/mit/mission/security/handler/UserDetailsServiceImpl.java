@@ -1,11 +1,11 @@
 package com.mit.mission.security.handler;
 
-import com.mit.mission.security.domain.Menu;
 import com.mit.mission.security.domain.User;
 import com.mit.mission.security.dto.SecurityUser;
 import com.mit.mission.security.service.MenuService;
 import com.mit.mission.security.service.RoleService;
 import com.mit.mission.security.service.UserService;
+import com.mit.mission.security.vo.MenuVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -44,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         // 权限列表
         List<String> roleIds = Stream.of(curUser.getRoleIds().split(",")).collect(Collectors.toList());
-        List<String> menus = menuService.getMenusByRoleIds(roleIds).stream().map(Menu::getUrl).collect(Collectors.toList());
+        List<String> menus = menuService.getMenusByRoleIds(roleIds).stream().map(MenuVo::getUrl).collect(Collectors.toList());
         securityUser.setAuthorities(
                 AuthorityUtils.commaSeparatedStringToAuthorityList(String.join(",",menus)));
 
