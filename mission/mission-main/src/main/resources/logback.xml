@@ -3,12 +3,11 @@
     <!--引入默认的一些设置-->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <!--web信息-->
-    <logger name="org.springframework.web" level="info"/>
+    <logger name="org.springframework.web" level="INFO"/>
 
     <!--关闭无效的信息-->
     <logger name="com.zaxxer.hikari.HikariDataSource" level="OFF"/>
     <logger name="org.springframework.data.repository.config" level="OFF"/>
-    <logger name="org.apache.catalina.core" level="OFF"/>
 
     <!--日志路径-->
     <property name="file_path" value="./logs"/>
@@ -30,7 +29,7 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 打印Info级别以上日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- Info及以上日志 -->
             <level>INFO</level>
         </filter>
     </appender>

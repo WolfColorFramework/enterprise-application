@@ -1,8 +1,10 @@
 package com.mit.mission.security.util;
 
+import com.mit.mission.security.enums.MenuStatus;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.Field;
+import java.beans.PropertyDescriptor;
 import java.util.*;
 
 /**
@@ -24,24 +26,16 @@ public class ToolUtils {
             Map map = new HashMap();
             for (Object o : tree) {
                 Class clazz = o.getClass();
-                Field uuid = clazz.getDeclaredField("id");
-                Field parentIds = clazz.getDeclaredField("parentIds");
-                Field parent_ids = clazz.getDeclaredField("parentIdList");
+                PropertyDescriptor uuid = BeanUtils.getPropertyDescriptor(clazz, "uuid");
+                PropertyDescriptor parentIds = BeanUtils.getPropertyDescriptor(clazz, "parentIds");
+                PropertyDescriptor parent_ids = BeanUtils.getPropertyDescriptor(clazz, "parentIdList");
+
                 if (parentIds != null && parent_ids != null) {
-                    if (!parentIds.isAccessible()) {
-                        parentIds.setAccessible(true);
-                    }
-                    String ids = ((String) parentIds.get(o)).replace("[", "").replace("]", "");
-                    parentIds.set(o, ids);
-                    if (!parent_ids.isAccessible()) {
-                        parent_ids.setAccessible(true);
-                    }
-                    parent_ids.set(o, ids.split(","));
+                    String ids = ((String) parentIds.getReadMethod().invoke(o)).replace("[", "").replace("]", "");
+                    parentIds.getWriteMethod().invoke(o, ids);
+                    parent_ids.getWriteMethod().invoke(o, ids.split(","));
                 }
-                if (!uuid.isAccessible()) {
-                    uuid.setAccessible(true);
-                }
-                String lId = (String) uuid.get(o);
+                String lId = uuid.getReadMethod().invoke(o).toString();
                 map.put(lId, o);
             }
 
@@ -49,27 +43,21 @@ public class ToolUtils {
                 String cId = (String) o;
                 Object obj = map.get(cId);
                 Class clazz = obj.getClass();
-                Field pId = clazz.getDeclaredField("parentId");
-                if (!pId.isAccessible()) {
-                    pId.setAccessible(true);
-                }
-                String id = (String) pId.get(obj);
+                PropertyDescriptor pId = BeanUtils.getPropertyDescriptor(clazz, "parentId");
+                String id = pId.getReadMethod().invoke(obj).toString();
                 if ("0".equals(id) || map.get(id) == null) {
                     t_list.add(obj);
                 } else {
                     Object object = map.get(id);
                     Class clazz1 = object.getClass();
-                    Field children = clazz1.getDeclaredField("children");
-                    if (!children.isAccessible()) {
-                        children.setAccessible(true);
-                    }
-                    List list = (List) children.get(object);
+                    PropertyDescriptor children = BeanUtils.getPropertyDescriptor(clazz, "children");
+                    List list = (List) children.getReadMethod().invoke(object);
                     if (CollectionUtils.isEmpty(list)) {
                         list = new ArrayList();
                     }
                     list.add(obj);
                     Collections.sort(list);
-                    children.set(object, list);
+                    children.getWriteMethod().invoke(object, list);
                 }
             }
             Collections.sort(t_list);
@@ -77,4 +65,59 @@ public class ToolUtils {
         }
         return null;
     }
+
+    /**
+     * 根据id,parentId获取树型结构数据
+     *
+     * @param tree
+     * @return
+     * @throws Exception
+     */
+    public static List factorTree2(List tree, Boolean isStatus) throws Exception {
+        if (!CollectionUtils.isEmpty(tree)) {
+            List t_list = new ArrayList();
+            Map map = new HashMap();
+            for (Object o : tree) {
+                Class clazz = o.getClass();
+                PropertyDescriptor uuid = BeanUtils.getPropertyDescriptor(clazz, "uuid");
+                String lId = uuid.getReadMethod().invoke(o).toString();
+                map.put(lId, o);
+            }
+
+            for (Object o : map.keySet()) {
+                String cId = (String) o;
+                Object obj = map.get(cId);
+                Class clazz = obj.getClass();
+                PropertyDescriptor pId = BeanUtils.getPropertyDescriptor(clazz, "parentId");
+                boolean state = true;
+                if (isStatus != null && isStatus) {
+                    PropertyDescriptor status = BeanUtils.getPropertyDescriptor(clazz, "status");
+                    state = ((Integer) status.getReadMethod().invoke(obj) == MenuStatus.ENABLE.getCode());
+                }
+                String id = pId.getReadMethod().invoke(obj).toString();
+                if ("0".equals(id) || map.get(id) == null) {
+                    if (state) {
+                        t_list.add(obj);
+                    }
+                } else {
+                    Object object = map.get(id);
+                    Class clazz1 = object.getClass();
+                    PropertyDescriptor children = BeanUtils.getPropertyDescriptor(clazz1, "children");
+                    List list = (List) children.getReadMethod().invoke(object);
+                    if (CollectionUtils.isEmpty(list)) {
+                        list = new ArrayList();
+                    }
+                    if (state) {
+                        list.add(obj);
+                    }
+                    Collections.sort(list);
+                    children.getWriteMethod().invoke(object, list);
+                }
+            }
+            Collections.sort(t_list);
+            return t_list;
+        }
+        return null;
+    }
+
 }
