@@ -15,7 +15,7 @@ import java.util.List;
 public class MenuDto extends Menu {
     private static final long serialVersionUID = 1L;
 
-    private String[] parentIdList;
+    private List<String> parentIdList;
     private List<MenuDto> linkedList = new ArrayList<>();
     private List<MenuDto> children;
     private String label;

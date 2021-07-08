@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d238084"],{fe3b:function(n,e,t){"use strict";t.r(e);var u=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v("列车广播管理")])},a=[],c={name:"",data:function(){return{}}},r=c,i=t("2877"),o=Object(i["a"])(r,u,a,!1,null,"5d512964",null);e["default"]=o.exports}}]);

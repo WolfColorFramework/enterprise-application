@@ -20,6 +20,7 @@ security-starting:
     - /token/refresh-token
   static-urls:
     - /static/**
+    - /templates/**
 
 security-token:
   expiration: 3600000 # 过期毫秒（1小时）

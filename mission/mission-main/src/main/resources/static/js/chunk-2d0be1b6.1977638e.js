@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0be1b6"],{"2f9e":function(n,e,t){"use strict";t.r(e);var a=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v("列车配置")])},u=[],c={name:"",data:function(){return{}}},r=c,f=t("2877"),i=Object(f["a"])(r,a,u,!1,null,"f0f2007a",null);e["default"]=i.exports}}]);

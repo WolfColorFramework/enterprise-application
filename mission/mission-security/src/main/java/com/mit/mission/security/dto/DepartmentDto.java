@@ -9,7 +9,7 @@ import java.util.List;
 public class DepartmentDto extends Department implements Comparable<DepartmentDto> {
 
     private static final long serialVersionUID = 1L;
-    private String[] parentIdList;
+    private List<String> parentIdList;
     private List<DepartmentDto> children;
     private String label;
     private String value;

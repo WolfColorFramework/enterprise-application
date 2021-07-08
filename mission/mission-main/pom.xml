@@ -51,6 +51,12 @@
             </exclusions>
         </dependency>
 
+        <!--做模板映射，不使用对应的技术进行前端页面开发-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e542e"],{9474:function(n,e,t){"use strict";t.r(e);var a=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v("LCD版式管理")])},u=[],c={name:"",data:function(){return{}}},r=c,i=t("2877"),o=Object(i["a"])(r,a,u,!1,null,"dab02152",null);e["default"]=o.exports}}]);

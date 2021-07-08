@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0aecd8"],{"0c2a":function(n,e,a){"use strict";a.r(e);var t=function(){var n=this,e=n.$createElement,a=n._self._c||e;return a("div",[n._v("乘客信息报警")])},c=[],u={name:"",data:function(){return{}}},r=u,i=a("2877"),o=Object(i["a"])(r,t,c,!1,null,"272ac1ea",null);e["default"]=o.exports}}]);

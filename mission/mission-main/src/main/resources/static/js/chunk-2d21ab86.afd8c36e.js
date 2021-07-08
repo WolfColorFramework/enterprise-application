@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21ab86"],{bd5c:function(n,e,t){"use strict";t.r(e);var a=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v("设备控制")])},c=[],u={name:"",data:function(){return{}}},r=u,d=t("2877"),i=Object(d["a"])(r,a,c,!1,null,"1fdd7992",null);e["default"]=i.exports}}]);
