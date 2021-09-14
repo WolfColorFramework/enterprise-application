@@ -10,6 +10,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         // 首页url映射到模板的配置
         registry.addViewController("/login").setViewName("index");
-
     }
 }
