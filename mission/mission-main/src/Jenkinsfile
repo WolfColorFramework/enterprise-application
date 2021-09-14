@@ -1,0 +1,13 @@
+BUILD_ID=DONTKILLME
+mvn clean package -D skipTests
+APP_JAR="pis-5.0.jar"
+mv -f /var/lib/jenkins/workspace/pis-base/mission-main/target/pis-base.jar /home/app/pis_5.0/$APP_JAR
+
+cd /home/app/pis_5.0/
+NR=`ps -ef | grep "./$APP_JAR" | grep -v grep | wc -l`
+if [ "$NR" -eq 1 ]
+then
+   ./service.sh restart
+else
+   ./service.sh start
+fi
