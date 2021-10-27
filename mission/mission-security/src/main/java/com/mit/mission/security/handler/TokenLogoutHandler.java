@@ -4,6 +4,7 @@ import com.mit.mission.common.web.ResponseMessage;
 import com.mit.mission.common.util.ResponseUtil;
 import com.mit.mission.security.util.TokenManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class TokenLogoutHandler implements LogoutHandler {
         if(token != null) {
             //移除
             tokenManager.removeToken(token);
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
         ResponseUtil.out(response, ResponseMessage.OK("成功"));
     }
