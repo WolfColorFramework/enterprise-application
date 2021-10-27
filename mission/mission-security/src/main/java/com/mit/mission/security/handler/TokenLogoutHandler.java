@@ -30,6 +30,7 @@ public class TokenLogoutHandler implements LogoutHandler {
         if(token != null) {
             //移除
             tokenManager.removeToken(token);
+            // 清空缓存
             SecurityContextHolder.getContext().setAuthentication(null);
         }
         ResponseUtil.out(response, ResponseMessage.OK("成功"));
