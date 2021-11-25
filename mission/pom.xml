@@ -24,6 +24,7 @@
         <module>mission-security</module>
         <module>pis-web</module>
         <module>mission-main</module>
+        <module>mission-netty</module>
     </modules>
 
     <dependencies>
