@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-public class NettyClientHandler extends SimpleChannelInboundHandler<TcpMessage> {
+public class TcpClientHandler extends SimpleChannelInboundHandler<TcpMessage> {
     // 用来接收结果的 promise 对象
     public static final Map<String, Promise<TcpMessage>> PROMISES = new ConcurrentHashMap<>();
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        NettyClientManager.getInstance().removeClient(ctx.channel());
+        TcpClientManager.getInstance().removeClient(ctx.channel());
         ctx.channel().close();
     }
 
@@ -35,7 +35,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<TcpMessage> 
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        NettyClientManager.getInstance().removeClient(ctx.channel());
+        TcpClientManager.getInstance().removeClient(ctx.channel());
         log.error("{}", cause.getCause());
     }
 

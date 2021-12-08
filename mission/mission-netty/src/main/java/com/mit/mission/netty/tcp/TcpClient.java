@@ -12,14 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
-public class NettyClient {
+public class TcpClient {
     private Bootstrap bootstrap;
     private NioEventLoopGroup group;
     private Channel channel;
     private String remoteIP;
     private String remotePort;
 
-    public NettyClient(String remoteIP, String remotePort) {
+    public TcpClient(String remoteIP, String remotePort) {
         this.remoteIP = remoteIP;
         this.remotePort = remotePort;
         bootstrap = new Bootstrap();
@@ -33,7 +33,7 @@ public class NettyClient {
         channel.writeAndFlush(message);
 
         DefaultPromise<TcpMessage> promise = new DefaultPromise<>(channel.eventLoop());
-        NettyClientHandler.PROMISES.put(message.getUuid(), promise);
+        TcpClientHandler.PROMISES.put(message.getUuid(), promise);
 
         promise.await();
         if (promise.isSuccess()) {
@@ -48,7 +48,7 @@ public class NettyClient {
     private void connect() {
         //创建EventLoopGroup
         group = new NioEventLoopGroup();
-        NettyClientHandler handler = new NettyClientHandler();
+        TcpClientHandler handler = new TcpClientHandler();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY, true)
@@ -66,7 +66,7 @@ public class NettyClient {
                 );
         try {
             channel = bootstrap.connect(remoteIP, Integer.parseInt(remotePort)).sync().channel();
-            NettyClientManager.getInstance().bindClient(this);
+            TcpClientManager.getInstance().bindClient(this);
             channel.closeFuture().addListener(future -> group.shutdownGracefully());
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class NettyClient {
                 });
                 channel = channelFuture.channel();
 
-                NettyClientManager.getInstance().bindClient(this);
+                TcpClientManager.getInstance().bindClient(this);
 
                 channel.closeFuture().addListener(future -> group.shutdownGracefully());
             } catch (Exception e) {

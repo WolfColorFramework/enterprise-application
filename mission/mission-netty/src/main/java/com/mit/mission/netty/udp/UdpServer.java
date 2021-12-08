@@ -1,6 +1,6 @@
 package com.mit.mission.netty.udp;
 
-import com.mit.mission.netty.tcp.NettyClientManager;
+import com.mit.mission.netty.tcp.TcpClientManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -10,38 +10,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.InetSocketAddress;
-
 @Slf4j
 public class UdpServer {
     private Integer port;
-    private InetSocketAddress remoteAddress;
-    private static volatile UdpServer udpServer;
     private Channel channel;
 
-    private UdpServer(Integer serverPort, String clientIP, Integer clientPort) {
+    private UdpServer(Integer serverPort) {
         this.port = serverPort;
-        remoteAddress = new InetSocketAddress(clientIP, clientPort);
         connect();
-    }
-
-    public static UdpServer getInstance(Integer serverPort, String clientIP, Integer clientPort) {
-        if (udpServer != null)
-            return udpServer;
-
-        if (udpServer == null) {
-            synchronized (NettyClientManager.class) {
-                if (udpServer == null) {
-                    udpServer = new UdpServer(serverPort, clientIP, clientPort);
-                }
-            }
-        }
-        return udpServer;
-    }
-
-    public void sendMessage(byte[] message) {
-        UdpMessage udpMessage = new UdpMessage(message, remoteAddress);
-        channel.writeAndFlush(udpMessage);
     }
 
     private void connect() {
@@ -58,8 +34,7 @@ public class UdpServer {
                     protected void initChannel(NioDatagramChannel nioDatagramChannel) throws Exception {
                         //3.4在pipeline中加入解码器，和编码器（用来发送UDP）
                         ChannelPipeline pipeline = nioDatagramChannel.pipeline();
-                        pipeline.addLast(new UdpDecoder())
-                                .addLast(new UdpEncoder());
+                        pipeline.addLast(new UdpServerHandler());
                     }
                 });
         try {
