@@ -35,6 +35,7 @@ public class UdpServer {
                         //3.4在pipeline中加入解码器，和编码器（用来发送UDP）
                         ChannelPipeline pipeline = nioDatagramChannel.pipeline();
                         pipeline.addLast(new UdpServerHandler());
+
                     }
                 });
         try {
