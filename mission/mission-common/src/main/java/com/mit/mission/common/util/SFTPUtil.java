@@ -439,4 +439,5 @@ public class SFTPUtil {
         private Boolean mainSuccess = false;
         private Boolean redundancySuccess = false;
     }
+
 }
